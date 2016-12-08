@@ -1,14 +1,15 @@
-// 常见排序实现
+// 常见排序
 
-var sortUtil = {
+(function(global) {
     // 判断数组
-    isArray: function(arr) {
+    function isArray(arr) {
         return Object.prototype.toString.call(arr) === '[object Array]';
-    },
+    }
+
 
     // 插入排序
-    insert: function(arr) {
-        if (sortUtil.isArray(arr)) {
+    function insert(arr) {
+        if (isArray(arr)) {
             for (var i = 1, len = arr.length; i < len; i++) {
                 var tmp = arr[i];
 
@@ -20,15 +21,15 @@ var sortUtil = {
 
             return arr;
         } else {
-            console.log('arr is not an Array!');
+            throw new Error('arr is not an Array!');
             return;
         }
-    },
+    }
 
 
     // 快速排序
-    quick: function(arr) {
-        if (sortUtil.isArray(arr)) {
+    function quick(arr) {
+        if (isArray(arr)) {
             var len = arr.length;
 
             var helper = function(left, right) {
@@ -68,15 +69,15 @@ var sortUtil = {
             helper(0, len - 1);
             return arr;
         } else {
-            console.log('arr is not an Array!');
+            throw new Error('arr is not an Array!');
             return;
         }
-    },
+    }
 
 
     // 希尔排序
-    shell: function(arr) {
-        if (sortUtil.isArray(arr)) {
+    function shell(arr) {
+        if (isArray(arr)) {
             var len = arr.length,
                 tmp,
                 gap = 1;
@@ -100,15 +101,15 @@ var sortUtil = {
 
             return arr;
         } else {
-            console.log('arr is not an Array!');
+            throw new Error('arr is not an Array!');
             return;
         }
-    },
+    }
 
 
     // 堆排序
-    heap: function(arr) {
-        if (sortUtil.isArray(arr)) {
+    function heap(arr) {
+        if (isArray(arr)) {
             var size = arr.length;
             var tmp;
             var heapify = function(root ,heapSize) {
@@ -148,15 +149,15 @@ var sortUtil = {
 
             return arr;
         } else {
-            console.log('arr is not an Array!');
+            throw new Error('arr is not an Array!');
             return;
         }
-    },
+    }
 
 
     // 归并排序
-    merge: function(arr) {
-        if (sortUtil.isArray(arr)) {
+    function merge(arr) {
+        if (isArray(arr)) {
             var helper = function(arr) {
                 if (arr.length < 2) {
                     return arr;
@@ -198,15 +199,15 @@ var sortUtil = {
 
             return helper(arr);
         } else {
-            console.log('arr is not an Array!');
+            throw new Error('arr is not an Array!');
             return;
         }
-    },
+    }
 
 
     // 桶排序
-    bucket: function(arr, num) {
-        if (sortUtil.isArray(arr)) {
+    function bucket(arr, num) {
+        if (isArray(arr)) {
             if (arr.length < 2) {
                 return arr;
             }
@@ -238,22 +239,31 @@ var sortUtil = {
 
             var j = 0;
             while (j < num) {
-                result = result.concat(sortUtil.insert(buckets[j]));
+                result = result.concat(insert(buckets[j]));
                 j++;
             };
 
             return result;
         } else {
-            console.log('arr is not an Array!');
+            throw new Error('arr is not an Array!');
             return;
         }
     }
-};
+
+
+    global['sortUtil'] = {
+        'insert': insert,
+        'quick': quick,
+        'shell': shell,
+        'heap': heap,
+        'merge': merge,
+        'bucket': bucket
+    };
+})(window);
 
 
 // 测试
 var array = [3, 44, 38, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48];
-console.log(sortUtil.insert(''));
 console.log(sortUtil.insert(array));
 console.log(sortUtil.quick(array));
 console.log(sortUtil.shell(array));
