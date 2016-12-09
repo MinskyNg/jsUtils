@@ -3,20 +3,21 @@
 (function(window, document) {
     // cookie集合对象
     var cookies = {},
+        arr,
         p;
 
     if (document.cookie) {
-        var arr = document.cookie.split('; ');
+        arr = document.cookie.split('; ');
         for (var i = 0, len = arr.length; i < len; i++) {
             p = arr[i].indexOf('=');
-            cookies[decodeURIComponent(arr[i].substring(0, p))] = arr[i].substring(p + 1);
+            cookies[decodeURIComponent(arr[i].substring(0, p))] = decodeURIComponent(arr[i].substring(p + 1));
         }
     }
 
 
     // 获取指定cookie
     function get(key) {
-        return decodeURLComponent(cookies[key]) || null;
+        return cookies[key] || null;
     }
 
 

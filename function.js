@@ -7,41 +7,61 @@
 
     // bind实现
     function bind(fn, ctx) {
-        var args = slice.call(arguments, 1);
+        if (typeof fn === 'function') {
+            var args = slice.call(arguments, 1);
 
-        return function() {
-            return fn.apply(ctx, args.concat(slice.call(arguments)));
-        };
+            return function() {
+                return fn.apply(ctx, args.concat(slice.call(arguments)));
+            };
+        } else {
+            throw new Error('fn is not an Function!');
+        }
     }
 
 
     // 柯里化
     function currying(fn) {
-        var args = slice.call(arguments, 1);
+        if (typeof fn === 'function') {
+            var args = slice.call(arguments, 1);
 
-        return function () {
-            return fn.apply(this, args.concat(slice.call(arguments)));
-        };
+            return function () {
+                return fn.apply(this, args.concat(slice.call(arguments)));
+            };
+        } else {
+            throw new Error('fn is not an Function!');
+        }
     }
 
 
     // 反柯里化
     function uncurrying(fn) {
-        return Function.prototype.call.bind(fn);
+        if (typeof fn === 'function') {
+            return Function.prototype.call.bind(fn);
+        } else {
+            throw new Error('fn is not an Function!');
+        }
     }
 
 
     // 装饰器
     function wrap(fn, before, after) {
-        return function() {
-            var ret,
-                args = slice.call(arguments);
+        if (typeof fn === 'function') {
+            return function() {
+                var ret,
+                    args = slice.call(arguments);
 
-            before && before.apply(this, args);
-            ret = fn.apply(this, arguments);
-            after && after.apply(this, [ret].concat(args));
-            return ret;
-        };
+                if (typeof before === 'function') {
+                    before.apply(this, args);
+                }
+                ret = fn.apply(this, arguments);
+                if (typeof after === 'function') {
+                    after.apply(this, [ret].concat(args));
+                }
+                return ret;
+            };
+        } else {
+            throw new Error('fn is not an Function!');
+        }
     }
 
 
@@ -50,7 +70,9 @@
         var fns = [];
 
         for (var i = arguments.length - 1; i >= 0; i--) {
-            fns.push(arguments[i]);
+            if (typeof arguments[i] === 'function') {
+                fns.push(arguments[i]);
+            }
         }
 
         return function() {
@@ -61,69 +83,85 @@
             }
 
             return ret;
-        }
+        };
     }
 
 
     // 缓存结果
     function memorize(fn) {
-        var cache = {};
+        if (typeof fn === 'function') {
+            var cache = {};
 
-        return function() {
-            var argStr = JSON.stringify(arguments);
-            cache[argStr] = cache[argStr] || fn.apply(this, arguments);
-            return cache[argStr];
-        };
+            return function() {
+                var argStr = JSON.stringify(arguments);
+                cache[argStr] = cache[argStr] || fn.apply(this, arguments);
+                return cache[argStr];
+            };
+        } else {
+            throw new Error('fn is not an Function!');
+        }
     }
 
 
     // 一次性函数
     function once(fn) {
-        var called = false;
+        if (typeof fn === 'function') {
+            var called = false;
 
-        return function(){
-            if(!called) {
-                called = true;
-                return fn.apply(this, arguments);
-            }
+            return function(){
+                if(!called) {
+                    called = true;
+                    return fn.apply(this, arguments);
+                }
+            };
+        } else {
+            throw new Error('fn is not an Function!');
         }
     }
 
 
     // 函数防抖
     function debounce(fn, delay) {
-        var timer;
+        if (typeof fn === 'function') {
+            var timer;
 
-        return function(){
-            var ctx = this,
-                args = arguments;
+            return function() {
+                var ctx = this,
+                    args = arguments;
 
-            clearTimeout(timer);
-            timer = setTimeout(function(){
-                fn.apply(ctx, args);
-            }, delay || 500);
+                clearTimeout(timer);
+                timer = setTimeout(function(){
+                    fn.apply(ctx, args);
+                }, delay || 500);
+            };
+        } else {
+            throw new Error('fn is not an Function!');
         }
     }
 
 
     // 函数节流
     function throttle(fn, duration, delay) {
-        var timer = null,
-            startTime = new Date();
+        if (typeof fn === 'function') {
+            var timer = null,
+                startTime = new Date();
 
-        return function (){
-            var ctx = this,
-                args = arguments,
-                curTime = new Date();
+            return function () {
+                var ctx = this,
+                    args = arguments,
+                    curTime = new Date();
 
-            clearTimeout(timer);
+                clearTimeout(timer);
 
-            if(curTime - startTime >= duration){
-                fn.apply(ctx, args);
-                startTime = curTime;
-            } else {
-                timer = setTimeout(fn, delay);
-            }
+                if(curTime - startTime >= duration){
+                    fn.apply(ctx, args);
+                    startTime = curTime;
+                } else {
+                    timer = setTimeout(fn, delay);
+                }
+            };
+        } else {
+            throw new Error('fn is not an Function!');
         }
     }
 

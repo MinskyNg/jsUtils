@@ -22,7 +22,6 @@
             return arr;
         } else {
             throw new Error('arr is not an Array!');
-            return;
         }
     }
 
@@ -70,7 +69,6 @@
             return arr;
         } else {
             throw new Error('arr is not an Array!');
-            return;
         }
     }
 
@@ -102,7 +100,6 @@
             return arr;
         } else {
             throw new Error('arr is not an Array!');
-            return;
         }
     }
 
@@ -150,7 +147,6 @@
             return arr;
         } else {
             throw new Error('arr is not an Array!');
-            return;
         }
     }
 
@@ -200,7 +196,6 @@
             return helper(arr);
         } else {
             throw new Error('arr is not an Array!');
-            return;
         }
     }
 
@@ -246,7 +241,6 @@
             return result;
         } else {
             throw new Error('arr is not an Array!');
-            return;
         }
     }
 

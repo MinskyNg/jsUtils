@@ -1,4 +1,4 @@
-// Ajax相关
+// Ajax相关封装
 
 (function(window) {
     // 默认参数
@@ -254,6 +254,7 @@
         }
         script.src = opts.url;
         script.type = 'text/javascript';
+        script.onload = opts.success();
         document.body.appendChild(script);
     }
 
