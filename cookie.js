@@ -1,6 +1,13 @@
 // cookie操作
 
 (function(window, document) {
+    'use strict';
+
+    if (window.cookieUtil) {
+        return;
+    }
+
+
     // cookie集合对象
     var cookies = {},
         arr,
@@ -70,7 +77,7 @@
     }
 
 
-    window['cookieUtil'] = {
+    window.cookieUtil = {
         'get': get,
         'getAll': getAll,
         'set': set,

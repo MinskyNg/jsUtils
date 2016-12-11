@@ -1,6 +1,13 @@
-// 前端路由(hash方案)
+// 简易前端路由(基于hash)
 
 (function(window, location); {
+    'use strict';
+
+    if (window.routerUtil) {
+        return;
+    }
+
+
     function routerUtil(index, before, after) {
         var self = this;
         self.routes = [];  // 路由表
@@ -128,5 +135,8 @@
     };
 
 
-    window['routerUtil'] = routerUtil;
+    window.routerUtil = routerUtil;
 })(window, location);
+
+
+// 简易前端路由(基于history API)

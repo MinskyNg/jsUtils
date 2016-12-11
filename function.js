@@ -1,6 +1,12 @@
 // 函数相关
 
 (function(global) {
+    'use strict';
+
+    if (global.functionUtil) {
+        return;
+    }
+
     // 缓存slice方法
     var slice = Array.prototype.slice;
 
@@ -8,7 +14,7 @@
     // bind实现
     function bind(fn, ctx) {
         if (typeof fn === 'function') {
-            var args = slice.call(arguments, 1);
+            var args = slice.call(arguments, 2);
 
             return function() {
                 return fn.apply(ctx, args.concat(slice.call(arguments)));
@@ -165,7 +171,7 @@
         }
     }
 
-    global['functionUtil'] = {
+    global.functionUtil = {
         'bind': bind,
         'currying': currying,
         'uncurrying': uncurrying,
@@ -176,4 +182,4 @@
         'debounce': debounce,
         'throttle': throttle
     };
-})(window);
+})(typeof self === 'undefined' ? typeof global === 'undefined' ? this : global : self);

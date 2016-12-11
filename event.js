@@ -1,6 +1,13 @@
 // 事件兼容处理相关
 
 (function(window, document) {
+    'use strict';
+
+    if (window.eventUtil) {
+        return;
+    }
+
+
     // 绑定事件 先做一次能力检测
     var addListener = (function() {
         if (document.addEventListener) {
@@ -276,7 +283,7 @@
     }
 
 
-    window['eventUtil'] = {
+    window.eventUtil = {
         'addListener': addListener,
         'removeListener': removeListener,
         'getEvent': getEvent,

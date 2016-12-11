@@ -1,6 +1,12 @@
 // 常见排序
 
 (function(global) {
+    'use strict';
+
+    if (global.sortUtil) {
+        return;
+    }
+
     // 判断数组
     function isArray(arr) {
         return Object.prototype.toString.call(arr) === '[object Array]';
@@ -166,8 +172,8 @@
             var merge = function(left, right) {
                 var result = [],
                     lenl = left.length,
-                    lenr = right.length;
-                    i = 0;
+                    lenr = right.length,
+                    i = 0,
                     j = 0;
 
                 while (i < lenl && j < lenr) {
@@ -245,7 +251,7 @@
     }
 
 
-    global['sortUtil'] = {
+    global.sortUtil = {
         'insert': insert,
         'quick': quick,
         'shell': shell,
@@ -253,7 +259,7 @@
         'merge': merge,
         'bucket': bucket
     };
-})(window);
+})(typeof self === 'undefined' ? typeof global === 'undefined' ? this : global : self);
 
 
 // 测试

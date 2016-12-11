@@ -1,6 +1,13 @@
 // Ajax相关封装
 
 (function(window) {
+    'use strict';
+
+    if (window.ajaxUtil) {
+        return;
+    }
+
+
     // 默认参数
     var setup = {
         url: '',  // 请求地址
@@ -254,7 +261,7 @@
         }
         script.src = opts.url;
         script.type = 'text/javascript';
-        script.onload = opts.success();
+        script.onload = opts.success;
         document.body.appendChild(script);
     }
 
@@ -266,7 +273,7 @@
     }
 
 
-    window['ajaxUtil'] = {
+    window.ajaxUtil = {
         'ajaxSetup': ajaxSetup,
         'ajax': ajax,
         'jsonp': jsonp,
