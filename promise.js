@@ -22,6 +22,7 @@
     }());
 
 
+    // Promise构造函数
     function Promise(executor) {
         if (typeof executor !== 'function') {
             throw new TypeError('Promise executor ' + executor + ' is not a function');
@@ -80,12 +81,10 @@
             var self = this;
             var promise2; // then要返回一个新Promise
 
-
             // 如果then的参数不是function，需新建函数以传递value或reason
             onResolved = typeof onResolved === 'function' ? onResolved : function(value) { return value; };
             onRejected = typeof onRejected === 'function' ? onRejected : function(reason) {
                 throw reason; };
-
 
             // 当promise1状态为resolved时
             if (self.status === 'resolved') {
@@ -101,7 +100,6 @@
                 });
             }
 
-
             // 当promise1状态为rejected时
             if (self.status === 'rejected') {
                 return promise2 = new Promise(function(resolve, reject) {
@@ -115,7 +113,6 @@
                     });
                 });
             }
-
 
             // 当promise1状态仍为pending时，注册回调到promise1上
             if (self.status === 'pending') {
@@ -235,7 +232,7 @@
 
         // 防止循环调用
         if (promise2 === returnValue) {
-            return reject(new TypeError('promise circular chain!'));
+            return reject(new Error('promise circular chain!'));
         }
 
         if (returnValue instanceof Promise) {

@@ -27,7 +27,7 @@
 
             return arr;
         } else {
-            throw new Error('arr is not an Array!');
+            throw new TypeError('arr is not an Array!');
         }
     }
 
@@ -74,7 +74,7 @@
             helper(0, len - 1);
             return arr;
         } else {
-            throw new Error('arr is not an Array!');
+            throw new TypeError('arr is not an Array!');
         }
     }
 
@@ -105,7 +105,7 @@
 
             return arr;
         } else {
-            throw new Error('arr is not an Array!');
+            throw new TypeError('arr is not an Array!');
         }
     }
 
@@ -152,7 +152,7 @@
 
             return arr;
         } else {
-            throw new Error('arr is not an Array!');
+            throw new TypeError('arr is not an Array!');
         }
     }
 
@@ -201,7 +201,7 @@
 
             return helper(arr);
         } else {
-            throw new Error('arr is not an Array!');
+            throw new TypeError('arr is not an Array!');
         }
     }
 
@@ -246,7 +246,7 @@
 
             return result;
         } else {
-            throw new Error('arr is not an Array!');
+            throw new TypeError('arr is not an Array!');
         }
     }
 

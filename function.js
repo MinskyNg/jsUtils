@@ -20,7 +20,7 @@
                 return fn.apply(ctx, args.concat(slice.call(arguments)));
             };
         } else {
-            throw new Error('fn is not an Function!');
+            throw new TypeError('fn is not an Function!');
         }
     }
 
@@ -34,7 +34,7 @@
                 return fn.apply(this, args.concat(slice.call(arguments)));
             };
         } else {
-            throw new Error('fn is not an Function!');
+            throw new TypeError('fn is not an Function!');
         }
     }
 
@@ -44,7 +44,7 @@
         if (typeof fn === 'function') {
             return Function.prototype.call.bind(fn);
         } else {
-            throw new Error('fn is not an Function!');
+            throw new TypeError('fn is not an Function!');
         }
     }
 
@@ -66,7 +66,7 @@
                 return ret;
             };
         } else {
-            throw new Error('fn is not an Function!');
+            throw new TypeError('fn is not an Function!');
         }
     }
 
@@ -104,7 +104,7 @@
                 return cache[argStr];
             };
         } else {
-            throw new Error('fn is not an Function!');
+            throw new TypeError('fn is not an Function!');
         }
     }
 
@@ -121,7 +121,7 @@
                 }
             };
         } else {
-            throw new Error('fn is not an Function!');
+            throw new TypeError('fn is not an Function!');
         }
     }
 
@@ -141,7 +141,7 @@
                 }, delay || 500);
             };
         } else {
-            throw new Error('fn is not an Function!');
+            throw new TypeError('fn is not an Function!');
         }
     }
 
@@ -167,7 +167,7 @@
                 }
             };
         } else {
-            throw new Error('fn is not an Function!');
+            throw new TypeError('fn is not an Function!');
         }
     }
 

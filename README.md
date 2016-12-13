@@ -1,1 +1,1 @@
-# 原生JavaScript练习
+# 原生JavaScript练手小项目

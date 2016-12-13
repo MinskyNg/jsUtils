@@ -8,6 +8,9 @@
     }
 
 
+    // head节点
+    var docHead = document.getElementsByTagName('head')[0];
+
     // 默认参数
     var setup = {
         url: '',  // 请求地址
@@ -78,7 +81,7 @@
         timeSet.timer = setTimeout(function() {
             if (timeSet.dataType === 'jsonp') {
                 delete window[timeSet.callback];
-                document.body.removeChild(timeSet.script);
+                docHead.removeChild(timeSet.script);
             } else {
                 timeSet.timer === null;
                 timeSet.xhr.abort();
@@ -145,7 +148,7 @@
             if (opts.timeout) {
                 clearTimeout(timeSet.timer);
             }
-            document.body.removeChild(script);
+            docHead.removeChild(script);
             opts.success(data);
         }
 
@@ -155,7 +158,7 @@
         }
         script.src = url + (url.indexOf('?') !== -1 ? '&' : '?') + 'callback=' + callback;
         script.type = 'text/javascript';
-        document.body.appendChild(script);
+        docHead.appendChild(script);
     }
 
 
@@ -262,7 +265,7 @@
         script.src = opts.url;
         script.type = 'text/javascript';
         script.onload = opts.success;
-        document.body.appendChild(script);
+        docHead.appendChild(script);
     }
 
 

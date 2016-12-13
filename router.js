@@ -1,6 +1,6 @@
 // 简易前端路由(基于hash)
 
-(function(window, location); {
+(function(window, location) {
     'use strict';
 
     if (window.routerUtil) {
