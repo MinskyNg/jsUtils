@@ -1,4 +1,4 @@
-// 常见排序
+// 常见排序算法
 
 (function(global) {
     'use strict';

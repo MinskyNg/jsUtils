@@ -1,4 +1,4 @@
-// 事件兼容处理相关
+// 事件兼容处理工具
 
 (function(window, document) {
     'use strict';

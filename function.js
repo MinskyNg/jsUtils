@@ -1,4 +1,4 @@
-// 函数相关
+// 函数相关工具
 
 (function(global) {
     'use strict';
@@ -136,7 +136,7 @@
                     args = arguments;
 
                 clearTimeout(timer);
-                timer = setTimeout(function(){
+                timer = setTimeout(function() {
                     fn.apply(ctx, args);
                 }, delay || 500);
             };
@@ -159,7 +159,7 @@
 
                 clearTimeout(timer);
 
-                if(curTime - startTime >= duration){
+                if (curTime - startTime >= duration) {
                     fn.apply(ctx, args);
                     startTime = curTime;
                 } else {
