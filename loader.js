@@ -356,9 +356,9 @@
         Array.prototype.map = function (fn, ctx) {
             var ret = [];
             if (typeof fn === 'function') {
-               for (var i = 0, len = this.length; i < len; i++) {
-                  ret[i] = fn.call(ctx, this[i], i, this);
-              }
+                for (var i = 0, len = this.length; i < len; i++) {
+                    ret[i] = fn.call(ctx, this[i], i, this);
+                }
             }
             return ret;
         };
@@ -368,14 +368,14 @@
     // 数组some方法
     if (typeof Array.prototype.some != 'function') {
         Array.prototype.some = function (fn, ctx) {
-            var bool = false;
             if (typeof fn === 'function') {
-               for (var i = 0, len = this.length; i < len; i++) {
-                  if (bool === true) break;
-                  bool = !!fn.call(ctx, this[i], i, this);
-              }
+                for (var i = 0, len = this.length; i < len; i++) {
+                    if (fn.call(ctx, this[i], i, this)) {
+                        return true;
+                    }
+                }
             }
-            return bool;
+            return false;
         };
     }
 

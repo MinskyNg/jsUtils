@@ -241,9 +241,11 @@
 
     // 判断对象是否为空
     function isEmptyObject(obj) {
-        var p;
-        for (p in obj)
-            return false;
+        for (var key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                return false;
+            }
+        }
         return true;
     }
 
@@ -252,9 +254,9 @@
     if (typeof Array.prototype.forEach != 'function') {
         Array.prototype.forEach = function (fn, ctx) {
             if (typeof fn === 'function') {
-               for (var i = 0, len = this.length; i < len; i++) {
-                  fn.call(ctx, this[i], i, this);
-              }
+                for (var i = 0, len = this.length; i < len; i++) {
+                    fn.call(ctx, this[i], i, this);
+                }
             }
         };
     }
