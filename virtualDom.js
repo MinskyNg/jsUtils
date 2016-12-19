@@ -1,4 +1,4 @@
-// 简易Virtual DOM实现(尚未完成，感谢https://github.com/livoras/blog/issues/13)
+// 简易Virtual DOM(尚未完成，感谢https://github.com/livoras/blog/issues/13)
 
 (function(window, document) {
     'use strict';

@@ -1,4 +1,4 @@
-// cookie操作
+// cookie操作封装
 
 (function(window, document) {
     'use strict';

@@ -1,4 +1,4 @@
-// 模块加载器(参考AMD规范http://requirejs.org/)
+// 模块加载器(参考AMD规范)
 
 (function(window, document) {
     'use strict';
@@ -379,6 +379,10 @@
         };
     }
 
-    window.require = require;
-    window.define = define;
+    if (window.require === undefined) {
+        window.require = require;
+    }
+    if (window.define === undefined) {
+        window.define = define;
+    }
 })(window, document);

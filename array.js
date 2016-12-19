@@ -199,6 +199,42 @@
     }
 
 
+    // 返回start与end之间的整数
+    function range(start, end) {
+        var ret = [];
+        if (typeof start !== 'number') {
+            return;
+        }
+        if (typeof end !== 'number') {
+            end = start;
+            start = 0;
+        }
+        while (start < end) {
+            ret.push(start);
+            start++;
+        }
+        return ret;
+    }
+
+
+    // 数组乱序
+    function shuffle(arr) {
+        var ret = arr.slice(),
+            len = arr.length,
+            tmp,
+            ran;
+        while(0 != len) {
+            ran = Math.floor(Math.random() * len)
+            len--;
+            // swap
+            tmp = ret[len];
+            ret[len] = ret[ran];
+            ret[ran] = tmp;
+        }
+        return ret;
+    }
+
+
     // 返回第一次出现的索引
     function indexOf(arr, item) {
         if (isArray(arr)) {
@@ -225,6 +261,19 @@
     }
 
 
+    // 返回符合fn函数条件第一次出现的索引
+    function findIndexOf(arr, predicate, ctx) {
+        if (isArray(arr)) {
+            for (var i = 0, len = arr.length; i < len; i++) {
+                if (predicate.call(ctx, arr[i], i)) {
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
+
+
     global.arrayUtil = {
         'each': each,
         'map': map,
@@ -238,8 +287,11 @@
         'uniq': uniq,
         'zip': zip,
         'object': object,
+        'range': range,
+        'shuffle': shuffle,
         'indexOf': indexOf,
-        'lastIndexOf': lastIndexOf
+        'lastIndexOf': lastIndexOf,
+        'findIndexOf': findIndexOf
     };
 })(typeof self === 'undefined' ? typeof global === 'undefined' ? this : global : self);
 
