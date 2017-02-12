@@ -23,7 +23,7 @@
 
         this.type = type; // 标签类型
         this.props = props; // 属性
-        this.children = children; // 子元素
+        this.children = children || []; // 子元素
         this.key = props.key; // 唯一标识
         var count = 0;
         children.forEach(function(child, i) {
@@ -49,7 +49,7 @@
         }
 
         // 创建子节点
-        var children = this.children || [];
+        var children = this.children;
         children.forEach(function(child) {
             if (child instanceof VDom) {
                 el.appendChild(child.render());
@@ -100,7 +100,7 @@
             });
         }
 
-        if (curPatches.length) {
+        if (curPatches.length !== 0) {
             patches[index] = curPatches;
         }
     }
@@ -109,7 +109,7 @@
     // 比较属性
     function diffProps(oldProps, newProps) {
         var key,
-            propsPatches;
+            propsPatches = {};
 
         // 查找不同的属性
         for (key in oldProps) {
@@ -135,7 +135,7 @@
         newVNode = diffs.children;
 
         if (diffs.moves.length) {
-            currentPatch.push({
+            curPatches.push({
                 type: 'REORDER',
                 moves: diffs.moves
             });
@@ -163,7 +163,7 @@
         // index保存在对象中，方便传递共享
         var walker = {index: 0};
         patchWalk(dom, walker, patches);
-    }
+    };
 
 
     // 深度优先遍历，修改节点
@@ -172,6 +172,7 @@
         var childNodes = node.childNodes;
         var len = childNodes ? childNodes.length : 0;
 
+        // 先修改子节点
         for (var i = 0; i < len; i++) {
             walker.index++;
             patchWalk(childNodes[i], walker, patches);
@@ -251,7 +252,7 @@
 
 
     // 数组forEach方法
-    if (typeof Array.prototype.forEach != 'function') {
+    if (typeof Array.prototype.forEach !== 'function') {
         Array.prototype.forEach = function (fn, ctx) {
             if (typeof fn === 'function') {
                 for (var i = 0, len = this.length; i < len; i++) {

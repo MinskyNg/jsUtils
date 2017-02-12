@@ -33,7 +33,13 @@
     // 清除字符串两端空格
     function trim(str) {
         if (isString(str)) {
-            return str.replace(/(^\s+)|(\s+$)/g, '');
+            var tmp =  str.replace(/^\s+/, '');
+            var end = tmp.length - 1;
+            var ws = /\s/;
+            while (ws.test(tmp.charAt(end))) {
+                end--;
+            }
+            return tmp.slice(0, end + 1);
         }
     }
 

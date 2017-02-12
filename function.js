@@ -59,7 +59,7 @@
                 if (typeof before === 'function') {
                     before.apply(this, args);
                 }
-                ret = fn.apply(this, arguments);
+                ret = fn.apply(this, args);
                 if (typeof after === 'function') {
                     after.apply(this, [ret].concat(args));
                 }
@@ -129,7 +129,7 @@
     // 函数防抖
     function debounce(fn, delay) {
         if (typeof fn === 'function') {
-            var timer;
+            var timer = null;
 
             return function() {
                 var ctx = this,
@@ -170,6 +170,7 @@
             throw new TypeError('fn is not an Function!');
         }
     }
+
 
     global.functionUtil = {
         'bind': bind,

@@ -43,12 +43,12 @@
         if (document.detachEvent) {
             return function(target, type, handler) {
                 target.detachEvent('on' + type, target['e' + type + handler]);
-                target['e' + type + handler] = null;
+                delete target['e' + type + handler];
             };
         }
 
         return function(target, type, handler) {
-            target['on' + type] = null;
+            delete target['on' + type];
         };
     })();
 
@@ -126,7 +126,7 @@
         target['on' + type + handler] = function(e) {
             handler.apply(target, arguments);
             removeListener(target, type, target['on' + type + handler]);
-            target['on' + type + handler] = null;
+            delete target['on' + type + handler];
         };
         addListener(target, type, target['on' + type + handler]);
     }
@@ -147,7 +147,7 @@
     // 解除事件代理
     function off(parent, type, handler, validater) {
         removeListener(parent, type, parent['on' + type + handler + validater]);
-        parent['on' + type + handler + validater] = null;
+        delete parent['on' + type + handler + validater];
     }
 
 
@@ -208,7 +208,7 @@
         }
 
         var handler = function(e) {
-            fnArr[(i % toggles) + 2].apply(target, arguments);
+            fnArr[i % toggles].apply(target, arguments);
             i++;
         };
 

@@ -14,12 +14,12 @@
 
 
     // 插入排序
-    function insert(arr) {
+    function insert(arr, cmp) {
         if (isArray(arr)) {
             for (var i = 1, len = arr.length; i < len; i++) {
                 var tmp = arr[i];
 
-                for (var j = i - 1; j >= 0 && arr[j] > tmp; j--) {
+                for (var j = i - 1; j >= 0 && cmp(arr[j], tmp) > 0; j--) {
                     arr[j + 1] = arr[j];
                 }
                 arr[j + 1] = tmp;
@@ -33,7 +33,7 @@
 
 
     // 快速排序
-    function quick(arr) {
+    function quick(arr, cmp) {
         if (isArray(arr)) {
             var len = arr.length;
 
@@ -47,7 +47,7 @@
 
                 swap(left, right);
                 for (var i = left; i < right; i++) {
-                    if (arr[i] < pivot) {
+                    if (cmp(arr[i], pivot) < 0) {
                         if (i !== pivotIndex) {
                             swap(i, pivotIndex);
                         }
@@ -80,27 +80,27 @@
 
 
     // 希尔排序
-    function shell(arr) {
+    function shell(arr, cmp) {
         if (isArray(arr)) {
             var len = arr.length,
                 tmp,
                 gap = 1;
 
-            while (gap < len / 5) {
-                gap = gap * 5 + 1;
+            while (gap < len / 3) {
+                gap = gap * 3 + 1;
             }
 
             while (gap > 0) {
                 for (var i = gap; i < len; i++) {
                     tmp = arr[i];
 
-                    for (var j = i - gap; j >= 0 && arr[j] > tmp; j -= gap) {
+                    for (var j = i - gap; j >= 0 && cmp(arr[j], tmp) > 0; j -= gap) {
                         arr[j + gap] = arr[j];
                     }
 
                     arr[j + gap] = tmp;
                 }
-                gap = Math.floor(gap / 5);
+                gap = Math.floor(gap - 1 / 3);
             }
 
             return arr;
@@ -111,7 +111,7 @@
 
 
     // 堆排序
-    function heap(arr) {
+    function heap(arr, cmp) {
         if (isArray(arr)) {
             var size = arr.length;
             var tmp;
@@ -121,11 +121,11 @@
                     largest = root,
                     tmp;
 
-                if (left < heapSize && arr[left] > arr[largest]) {
+                if (left < heapSize && cmp(arr[left], arr[largest]) > 0) {
                     largest = left;
                 }
 
-                if (right < heapSize && arr[right] > arr[largest]) {
+                if (right < heapSize && cmp(arr[right], arr[largest]) > 0) {
                     largest = right;
                 }
 
@@ -158,7 +158,7 @@
 
 
     // 归并排序
-    function merge(arr) {
+    function merge(arr, cmp) {
         if (isArray(arr)) {
             var helper = function(arr) {
                 if (arr.length < 2) {
@@ -177,7 +177,7 @@
                     j = 0;
 
                 while (i < lenl && j < lenr) {
-                    if (left[i] > right[j]) {
+                    if (cmp(left[i], right[j]) > 0) {
                         result.push(right[j]);
                         j++;
                     } else {
@@ -240,7 +240,9 @@
 
             var j = 0;
             while (j < num) {
-                result = result.concat(insert(buckets[j]));
+                result = result.concat(insert(buckets[j], function(a, b) {
+                    return a - b;
+                }));
                 j++;
             };
 
@@ -264,9 +266,13 @@
 
 // 测试
 var array = [3, 44, 38, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48];
-console.log(sortUtil.insert(array));
-console.log(sortUtil.quick(array));
-console.log(sortUtil.shell(array));
-console.log(sortUtil.heap(array));
-console.log(sortUtil.merge(array));
+// 比较函数
+var compare = function(a, b) {
+    return a - b;
+};
+console.log(sortUtil.insert(array, compare));
+console.log(sortUtil.quick(array, compare));
+console.log(sortUtil.shell(array, compare));
+console.log(sortUtil.heap(array, compare));
+console.log(sortUtil.merge(array, compare));
 console.log(sortUtil.bucket(array, 5));

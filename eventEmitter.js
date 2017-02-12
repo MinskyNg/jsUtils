@@ -9,7 +9,7 @@
 
 
     // 选择合适的异步API
-    var asyncProcess = (function () {
+    var asyncProcess = (function() {
         if (typeof process === 'object' && process !== null && typeof (process.nextTick) === 'function') {
             return process.nextTick;
         }
@@ -27,7 +27,7 @@
     var EventEmitter = {
         // 绑定事件处理
         on: function(type, fn, ctx, once) {
-            if (!type || !fn) {
+            if (!type || typeof fn !== 'function') {
                 return;
             }
 
@@ -58,19 +58,19 @@
 
         // 同步触发事件
         emitSync: function(type, args) {
-            var event,
+            var events,
                 handler;
 
             if (eventList[type] !== undefined) {
-                event = eventList[type];
+                events = eventList[type];
 
-                for (var i = 0, len = event.length; i < len; i++) {
-                    handler = event[i];
+                for (var i = 0, len = events.length; i < len; i++) {
+                    handler = events[i];
                     handler.fn.apply(handler.ctx, args);
                     if (handler.once) {
                         i--;
                         len--;
-                        event.splice(i, 1);
+                        events.splice(i, 1);
                     }
                 }
             }
@@ -79,14 +79,14 @@
 
         // 解除事件绑定
         off: function(type, fn) {
-            var event;
+            var events;
 
             if (eventList[type] !== undefined) {
-                event = eventList[type];
+                events = eventList[type];
 
-                for (var i = 0, len = event.length; i < len; i++) {
-                    if (event[i].fn === fn) {
-                        event.splice(i, 1);
+                for (var i = 0, len = events.length; i < len; i++) {
+                    if (events[i].fn === fn) {
+                        events.splice(i, 1);
                         return true;
                     }
                 }
@@ -109,7 +109,7 @@
         // 返回所有事件
         events: function() {
             var keys = [];
-            for (var key in events) {
+            for (var key in eventList) {
                 keys.push(key);
             }
             return keys;

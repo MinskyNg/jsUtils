@@ -145,7 +145,7 @@
     // 用def对象填充obj对象中的undefined属性
     function defaults(obj, def) {
         for (var key in def) {
-            if (def.hasOwnProperty(key) && obj[key] === undefined) {
+            if (def.hasOwnProperty(key) && !(key in obj)) {
                 obj[key] = def[key];
             }
         }
@@ -222,7 +222,7 @@
                 return +a === +b;
         }
 
-        if (typeof a != 'object' || typeof b != 'object' || a.constructor !== b.constructor) {
+        if (typeof a !== 'object' || typeof b !== 'object' || a.constructor !== b.constructor) {
             return false;
         }
 

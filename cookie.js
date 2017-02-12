@@ -17,7 +17,7 @@
         arr = document.cookie.split('; ');
         for (var i = 0, len = arr.length; i < len; i++) {
             p = arr[i].indexOf('=');
-            cookies[decodeURIComponent(arr[i].substring(0, p))] = decodeURIComponent(arr[i].substring(p + 1));
+            cookies[decodeURIComponent(arr[i].slice(0, p))] = decodeURIComponent(arr[i].slice(p + 1));
         }
     }
 

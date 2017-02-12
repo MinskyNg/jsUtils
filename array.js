@@ -8,6 +8,9 @@
     }
 
 
+    var toString = Object.prototype.toString;
+
+
     // 判断是否为数组
     function isArray(arr) {
         return toString.call(arr) === '[object Array]';
@@ -19,6 +22,17 @@
         return typeof fn === 'function';
     }
 
+
+    // 生成二维数组
+    function matrix(rowNum, colNum, init) {
+        var arr = [];
+        for (var i = 0; i < rowNum; i++) {
+            var col = new Array(colNum);
+            col.fill(init);
+            arr[i] = col;
+        }
+        return arr;
+    }
 
     // 遍历
     function each(arr, fn, ctx) {
@@ -223,7 +237,7 @@
             len = arr.length,
             tmp,
             ran;
-        while(0 != len) {
+        while(0 !== len) {
             ran = Math.floor(Math.random() * len)
             len--;
             // swap
@@ -275,6 +289,7 @@
 
 
     global.arrayUtil = {
+        'matrix': matrix,
         'each': each,
         'map': map,
         'reduce': reduce,

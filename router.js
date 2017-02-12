@@ -8,12 +8,19 @@
     }
 
 
-    function routerUtil(index, before, after) {
+    function routerUtil(base, before, after) {
         var self = this;
-        self.routes = [];  // 路由表
-        self.index = index || '/'; // 默认页面
-        self.before = self.setBefore(before);  // 前置钩子
-        self.after = self.setAfter(after);  // 后置钩子
+
+        this.routes = [];  // 路由表
+        if (arguments.length === 2) {
+            this.base = '/'; // 根路由
+            this.before = this.setBefore(base);  // 前置钩子
+            this.after = this.setAfter(before);  // 后置钩子
+        } else {
+            this.base = base;
+            this.before = this.setBefore(before);
+            this.after = this.setAfter(after);
+        }
 
         window.addEventListener('hashchange', function() {
             self.reload();
@@ -31,10 +38,7 @@
                 });
             } else if (Object.prototype.toString.call(path) === '[object Array]') {
                 for (var i = 0, len = path.length; i < len; i++) {
-                    this.routes.push({
-                        path: path[i].path,
-                        handler: path[i].handler
-                    });
+                    this.routes.push(path[i]);
                 }
             }
         },
@@ -99,7 +103,7 @@
 
             for (var i = 0, len = arr.length; i < len; i++) {
                 p = arr[i].indexOf('=');
-                params[decodeURIComponent(arr[i].substring(0, p))] = decodeURIComponent(arr[i].substring(p + 1));
+                params[decodeURIComponent(arr[i].slice(0, p))] = decodeURIComponent(arr[i].slice(p+1));
             }
 
             return params;
@@ -111,7 +115,9 @@
             var arr = [];
 
             for (var key in params) {
-                arr.push(key + '=' + params[key]);
+                if (params.hasOwnProperty(key)) {
+                    arr.push(encodeURIComponent(key) + '=' + encodeURIComponent(params[key]));
+                }
             }
 
             return arr.join('&');

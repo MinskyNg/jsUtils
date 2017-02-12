@@ -1,4 +1,4 @@
-// 模块加载器(参考AMD规范)
+// 模块加载器(参考http://www.cnblogs.com/dojo-lzz/p/5138108.html)
 
 (function(window, document) {
     'use strict';
@@ -8,7 +8,7 @@
 
     var modules = {}, // 已加载模块信息
         loadings = [], // 正在加载模块id
-        loadedJs = [], // 已加载模块id
+        loadedJs = [], // 已开始加载模块id
         parsedConfig = {
             baseUrl: './', // 所有模块的查找根路径
             paths: {}, // 模块路径映射
@@ -30,12 +30,15 @@
             id = undefined;
         }
 
-        var url = id || getCurrentScript();
-        var mId = getModuleId(url);
+        var id = id || getCurrentScript();
+        if (modules[id]) {
+            throw new Error('multiple define module: ' + id);
+        }
 
+        var mId = getModuleId(id);
         // 替换依赖为特定版本
-        if (mId || parsedConfig.shim[url]) {
-            mId = mId ? mId : url;
+        if (mId || parsedConfig.shim[id]) {
+            mId = mId || id;
             var maping = getMapSetting(mId);
             if (maping) {
                 deps = deps.map(function(dep) {
@@ -44,12 +47,8 @@
             }
         }
 
-        if (modules[url]) {
-            throw new Error('multiple define module: ' + url);
-        }
-
         if (!hasCircle) {
-            require(deps, factory, url);
+            require(deps, factory, id);
         }
     };
 
@@ -152,20 +151,20 @@
             parsedConfig.shim = config.shim;
             for (var p in config.shim) {
                 var shimModule = config.shim[p];
-                // 用AMD规范定义shim模块
+                // 用AMD规范执行shim模块
                 define(p, shimModule.deps, function() {
                     var exports;
                     if (shimModule.init) {
                         exports = shimModule.init.apply(shimModule, arguments);
                     }
-                    return exports ? exports : shimModule.exports;
+                    shimModule.exports = exports;
                 });
             }
         }
     }
 
 
-    // 获取模块id
+    // 获取已加载模块id
     function getModuleId(url) {
         var script = document.querySelector('script[src="' + url + '"]');
         if (script) {
@@ -319,10 +318,10 @@
         if (idx !== -1) {
             loadings.splice(idx, 1);
         }
-    };
+    }
 
 
-    // 获取当前运行script标签路径
+    // 获取当前运行脚本文件路径
     function getCurrentScript() {
         // 强制报错，以便在错误堆栈中用正则匹配获取文件路径
         // 参考 https://github.com/samyk/jiagra/blob/master/jiagra.js
@@ -343,17 +342,17 @@
 
         // 在head中查找活动的script标签
         var scripts = docHead.getElementsByTagName('script');
-        for(var i = 0, len = scripts.length; i < len; i++){
+        for (var i = 0, len = scripts.length; i < len; i++) {
             if(scripts[i].readyState === 'interactive'){
                 return scripts[i].src;
             }
         }
-    };
+    }
 
 
     // 数组map方法
-    if (typeof Array.prototype.map != 'function') {
-        Array.prototype.map = function (fn, ctx) {
+    if (typeof Array.prototype.map !== 'function') {
+        Array.prototype.map = function(fn, ctx) {
             var ret = [];
             if (typeof fn === 'function') {
                 for (var i = 0, len = this.length; i < len; i++) {
@@ -366,8 +365,8 @@
 
 
     // 数组some方法
-    if (typeof Array.prototype.some != 'function') {
-        Array.prototype.some = function (fn, ctx) {
+    if (typeof Array.prototype.some !== 'function') {
+        Array.prototype.some = function(fn, ctx) {
             if (typeof fn === 'function') {
                 for (var i = 0, len = this.length; i < len; i++) {
                     if (fn.call(ctx, this[i], i, this)) {
@@ -378,6 +377,7 @@
             return false;
         };
     }
+
 
     if (window.require === undefined) {
         window.require = require;

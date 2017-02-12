@@ -1,4 +1,4 @@
-// Promise/A+规范实现
+// Promise/A+规范实现(参考https://github.com/xieranmaya/blog/issues/3)
 
 (function(global){
     'use strict';
@@ -36,6 +36,7 @@
 
         // 将Promise状态变为resolved
         function resolve(value) {
+            // 若值为Promise则将此Promise的状态由其决定
             if (value instanceof Promise) {
                 return value.then(resolve, reject);
             }
@@ -150,6 +151,12 @@
 
         valueOf: function() {
             return this.data;
+        },
+
+
+        // 返回永远处于pending的Promise，以阻止后续执行
+        cancel: function() {
+            return new Promise(function(){});
         }
     };
 
@@ -208,21 +215,15 @@
     };
 
 
-    // 返回永远处于pending的Promise，以阻止后续执行
-    Promise.cancel =  function() {
-        return new Promise(function(){});
-    };
-
-
     // 返回deferred对象
     Promise.deferred = Promise.defer = function() {
         var dfd = {};
         dfd.promise = new Promise(function(resolve, reject) {
             dfd.resolve = resolve;
             dfd.reject = reject;
-        })
+        });
         return dfd;
-    }
+    };
 
 
     // 尝试让promise2接收returnValue状态

@@ -63,7 +63,7 @@
             arr = data.split('&');
             for (i = 0, len = arr.length; i < len; i++) {
                 p = arr[i].indexOf('=');
-                arr[i] = encodeURIComponent(arr[i].substring(0, p)) + '=' + encodeURIComponent(arr[i].substring(p + 1));
+                arr[i] = encodeURIComponent(arr[i].slice(0, p)) + '=' + encodeURIComponent(arr[i].slice(p + 1));
             }
         } else  if (typeof data === 'object') {
             arr = [];
