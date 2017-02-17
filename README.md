@@ -10,6 +10,7 @@
 |[eventEmitter](https://github.com/MinskyNg/jsUtils/blob/master/eventEmitter.js)|事件发射器|
 |[function](https://github.com/MinskyNg/jsUtils/blob/master/function.js)|函数相关工具|
 |[loader](https://github.com/MinskyNg/jsUtils/blob/master/loader.js)|模块加载器（AMD规范）|
+|[mvvm](https://github.com/MinskyNg/jsUtils/blob/master/mvvm.js)|简易MVVM实现|
 |[object](https://github.com/MinskyNg/jsUtils/blob/master/object.js)|对象相关工具|
 |[promise](https://github.com/MinskyNg/jsUtils/blob/master/promise.js)|Promise/A+规范实现|
 |[router](https://github.com/MinskyNg/jsUtils/blob/master/router.js)|简易前端路由|
