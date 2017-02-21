@@ -3,6 +3,7 @@
 |代码|说明|
 |:---:|:---:|
 |[ajax](https://github.com/MinskyNg/jsUtils/blob/master/ajax.js)|Ajax相关封装|
+|[animate](https://github.com/MinskyNg/jsUtils/blob/master/animate.js)|动画封装|
 |[array](https://github.com/MinskyNg/jsUtils/blob/master/array.js)|数组相关工具|
 |[cookie](https://github.com/MinskyNg/jsUtils/blob/master/cookie.js)|cookie操作封装|
 |[dom](https://github.com/MinskyNg/jsUtils/blob/master/dom.js)|部分DOM操作封装|
