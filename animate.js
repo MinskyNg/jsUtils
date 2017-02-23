@@ -50,25 +50,31 @@
     }
 
     Animation.prototype = {
-        // 获取初始值和变化量
+        // 获取初始值、变化量、单位
         getProps: function() {
-            var init = {};
-            var change = {};
+            var style;
+            var reg = /[%a-z]*$/;
+            var inits = {};
+            var changes = {};
+            var uints = {};
             for (var p in this.props) {
                 if (this.props.hasOwnProperty(p)) {
-                    init[p] = getStyle(this.el, p);
-                    change[p] = this.props[p] - init[p];
+                    style = getStyle(this.el, p);
+                    units[p] = reg.exec(style)[0]; // 获取单位
+                    inits[p] = +style.replace(units[p], ''); // 去除单位，转换为数值
+                    changes[p] = +this.props[p].replace(units[p], '') - inits[p];
                 }
             }
-            return [init, change];
+            return [inits, changes, units];
         },
 
         // 启动
         run: function() {
             var self = this;
-            var value = this.getProps();
-            var init = value[0];
-            var change = value[1];
+            var arr = this.getProps();
+            var inits = arr[0];
+            var changes = arr[1];
+            var units = arr[2];
             var startTime = +new Date();
 
             function step() {
@@ -78,8 +84,8 @@
 
                 var time = +new Date() - startTime;
                 if (time < self.duration) {
-                    for (var p in init) {
-                        self.el.stype[p] = self.easing(time, init[p], change[p], self.duration)
+                    for (var p in inits) {
+                        self.el.stype[p] = self.easing(time, inits[p], changes[p], self.duration) + units[p];
                     }
                     requestAnimationFrame(step);
                 } else {
@@ -87,7 +93,7 @@
                 }
             };
 
-            requestAnimationFrame(step);
+            step();
         },
 
         // 暂停
